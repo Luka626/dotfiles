@@ -72,6 +72,8 @@ main() {
     # Install latest nvim
     bob use latest
 
+    clone_dotfiles
+
     echo ""
     echo_info "System setup complete!"
 
