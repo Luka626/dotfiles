@@ -39,9 +39,15 @@ check_and_install() {
 }
 
 clone_dotfiles() {
-    cd ~
-    git clone git@github.com:Luka626/dotfiles.git dotfiles
-    cd ~/dotfiles
+    PATH_TO_DOTFILES="$HOME/dotfiles"
+    if [  -d "$PATH_TO_DOTFILES" ]; then
+        echo "dotfiles exist, pulling..."
+        cd $PATH_TO_DOTFILES
+        git fetch && git pull
+    else
+        cd $HOME
+        git clone git@github.com:Luka626/dotfiles.git dotfiles
+    fi
 }
 
 main() {
@@ -67,7 +73,13 @@ main() {
     # oh-my-zsh
     echo_info "Installing oh-my-zsh..."
     sudo usermod -s $(which zsh) $USER
-    git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+
+    OMZ_DIRECTORY="$HOME/.oh-my-zsh"
+    if [ -d "$OMZ_DIRECTORY" ]; then
+        echo "oh-my-zsh already exists."
+    else
+        git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+    fi
 
     echo_info "Installing rustup, bob-nvim, nvim latest..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
