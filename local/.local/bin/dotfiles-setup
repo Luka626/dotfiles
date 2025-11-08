@@ -66,11 +66,12 @@ main() {
 
     # oh-my-zsh
     echo_info "Installing oh-my-zsh..."
-    chsh -s $(which zsh)
+    sudo usermod -s $(which zsh) $USER
     git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
 
     echo_info "Installing rustup, bob-nvim, nvim latest..."
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    source "$HOME/.cargo/env"
     cargo install --git https://github.com/MordechaiHadad/bob.git
     bob use latest
 
