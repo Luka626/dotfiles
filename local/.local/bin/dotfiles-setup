@@ -40,7 +40,6 @@ check_and_install() {
 }
 
 clone_dotfiles() {
-    PATH_TO_DOTFILES="$HOME/dotfiles"
     if [  -d "$PATH_TO_DOTFILES" ]; then
         echo_info "dotfiles already cloned ✓"
         cd $PATH_TO_DOTFILES
@@ -51,6 +50,9 @@ clone_dotfiles() {
 }
 
 main() {
+    OMZ_DIRECTORY="$HOME/.oh-my-zsh"
+    PATH_TO_DOTFILES="$HOME/dotfiles"
+    
     echo_info "Starting system setup..."
     echo ""
 
@@ -74,7 +76,6 @@ main() {
     echo_info "Installing oh-my-zsh..."
     sudo usermod -s $(which zsh) $USER
 
-    OMZ_DIRECTORY="$HOME/.oh-my-zsh"
     if [ -d "$OMZ_DIRECTORY" ]; then
         echo_info "oh-my-zsh already cloned ✓"
     else
@@ -95,7 +96,7 @@ main() {
     echo_info "System setup complete!"
 
     echo_info "Installing dotfiles..."
-    bash local/.local/bin/dotfiles-install
+    bash $PATH_TO_DOTFILES/local/.local/bin/dotfiles-install
 }
 
 main "$@"
