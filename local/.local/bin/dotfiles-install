@@ -59,6 +59,9 @@ else
     done
 fi
 
+sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator ~/.local/bin/kitty 50
+
+
 echo ""
 echo_info "Dotfiles installation complete!"
 echo_info "Scripts are now available in ~/.local/bin/"
