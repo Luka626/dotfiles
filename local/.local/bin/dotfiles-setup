@@ -64,6 +64,7 @@ main() {
     check_and_install "git"
     check_and_install "stow"
     check_and_install "tmux"
+    check_and_install "npm"
     check_and_install "zsh"
 
     # clone repo and install
