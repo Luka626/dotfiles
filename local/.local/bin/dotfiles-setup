@@ -48,9 +48,10 @@ main() {
     echo_info "Starting system setup..."
     echo ""
 
+    echo_info "Updating system packages..."
     sudo apt update -y && sudo apt upgrade -y 
 
-    # Install essential debian packages
+    echo_info "Installing essential packages..."
     check_and_install "curl"
     check_and_install "git"
     check_and_install "stow"
@@ -60,21 +61,21 @@ main() {
     # clone repo and install
 
     # kitty
+    echo_info "Installing kitty..."
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 
     # oh-my-zsh
+    echo_info "Installing oh-my-zsh..."
     chsh -s $(which zsh)
     git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
 
-    # Rustup
+    echo_info "Installing rustup, bob-nvim, nvim latest..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-    # Install bob-nvim
     cargo install --git https://github.com/MordechaiHadad/bob.git
-
-    # Install latest nvim
     bob use latest
 
+
+    echo_info "Cloning dotfiles repo..."
     clone_dotfiles
 
     echo ""
