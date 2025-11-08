@@ -54,7 +54,7 @@ clone_dotfiles() {
 main() {
     OMZ_DIRECTORY="$HOME/.oh-my-zsh"
     PATH_TO_DOTFILES="$HOME/dotfiles"
-    ESSENTIAL_PACKAGES=( "curl" "git" "stow" "tmux" "npm" "zsh" "kitty" "build-essentials" "ripgrep" "fd-find" "unzip" "wget" )
+    ESSENTIAL_PACKAGES=( "curl" "git" "stow" "tmux" "npm" "zsh" "kitty" "build-essential" "ripgrep" "fd-find" "unzip" "wget" )
     
     echo_info "--- Starting system setup ---"
     echo ""
