@@ -4,7 +4,7 @@ Personal dotfiles managed with GNU Stow.
 
 ## Prerequisites
 
-Install GNU Stow:
+Install git:
 ```bash
 # Debian/Ubuntu
 sudo apt install stow
@@ -15,7 +15,7 @@ sudo apt install stow
 Clone this repository to your home directory:
 ```bash
 cd ~
-git clone <your-repo-url> dotfiles-main
+git clone git@github.com:Luka626/dotfiles.git dotfiles
 cd ~/dotfiles
 ```
 
