@@ -35,7 +35,6 @@ check_and_install() {
     if command -v "$cmd" &> /dev/null; then
         echo_info "$cmd is already installed ✓"
         return 0
-        return 0
     else
         echo_warn "$cmd not found"
         install_package "$cmd"
@@ -55,7 +54,7 @@ clone_dotfiles() {
 main() {
     OMZ_DIRECTORY="$HOME/.oh-my-zsh"
     PATH_TO_DOTFILES="$HOME/dotfiles"
-    ESSENTIAL_PACKAGES=( "curl" "git" "stow" "tmux" "npm" "zsh" "kitty" )
+    ESSENTIAL_PACKAGES=( "curl" "git" "stow" "tmux" "npm" "zsh" "kitty" "build-essentials" "ripgrep" "fd-find" "unzip" "wget" )
     
     echo_info "--- Starting system setup ---"
     echo ""
@@ -65,7 +64,7 @@ main() {
 
     echo_info "--- Installing essential debian packages ---"
     for package in "${ESSENTIAL_PACKAGES[@]}"; do
-        echo_info
+        echo_info "Installing: $package"
         check_and_install $package
     done
 
