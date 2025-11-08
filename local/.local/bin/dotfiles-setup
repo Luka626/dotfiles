@@ -34,7 +34,7 @@ check_and_install() {
         return 0
     else
         echo_warn "$cmd not found"
-        install_package "$package"
+        install_package "$cmd"
     fi
 }
 
