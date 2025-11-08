@@ -2,6 +2,9 @@
 
 set -e
 
+exec 3>&1
+exec 1> /dev/null 2>&1
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -9,15 +12,15 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 echo_info() {
-    echo -e "${GREEN}[INFO]${NC} $1"
+    echo -e "${GREEN}[INFO]${NC} $1" >&3
 }
 
 echo_warn() {
-    echo -e "${YELLOW}[WARN]${NC} $1"
+    echo -e "${YELLOW}[WARN]${NC} $1" >&3
 }
 
 echo_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
+    echo -e "${RED}[ERROR]${NC} $1" >&3
 }
 
 install_package() {
@@ -66,12 +69,9 @@ main() {
     check_and_install "tmux"
     check_and_install "npm"
     check_and_install "zsh"
+    check_and_install "kitty"
 
     # clone repo and install
-
-    # kitty
-    echo_info "Installing kitty..."
-    curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 
     # oh-my-zsh
     echo_info "Installing oh-my-zsh..."
@@ -98,6 +98,8 @@ main() {
 
     echo_info "Installing dotfiles..."
     bash $PATH_TO_DOTFILES/local/.local/bin/dotfiles-install
+    
+    sudo apt autoremove -y && sudo apt autoclean -y
 }
 
 main "$@"

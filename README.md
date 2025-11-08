@@ -32,11 +32,12 @@ stow nvim   # Install nvim configs
 stow tmux   # Install tmux configs
 stow kitty  # Install kitty configs
 stow local  # Install scripts to ~/.local/bin
+stow oh-my-zsh-custom  # Install oh-my-zsh plugins
 ```
 
 Install all packages at once:
 ```bash
-stow zsh nvim tmux local kitty
+stow zsh nvim tmux local kitty oh-my-zsh-custom
 ```
 
 Remove (unstow) a package:
@@ -57,6 +58,7 @@ Each directory represents a package:
 - `tmux/` - Tmux configuration
 - `local/` - Local scripts and utilities in ~/.local/bin
 - `kitty/` - Kitty configuration
+- `oh-my-zsh-custom/` - oh-my-zsh configuration
 
 ## How It Works
 
