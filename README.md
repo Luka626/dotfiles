@@ -4,53 +4,39 @@ Personal dotfiles managed with GNU Stow.
 
 ## Prerequisites
 
-Install git:
+Install curl:
 ```bash
-# Debian/Ubuntu
-sudo apt install stow
+sudo apt install curl
 ```
 
 ## Quick Start
 
-Clone this repository to your home directory:
+Curl and run setup script, installs packages, installs dotfiles.
 ```bash
-cd ~
-git clone git@github.com:Luka626/dotfiles.git dotfiles
-cd ~/dotfiles
-```
-
-### Automated Setup (Recommended)
-
-Install system dependencies (git, stow, tmux, neovim):
-```bash
-bash local/.local/bin/dotfiles-setup
-```
-
-Install all dotfiles:
-```bash
-bash local/.local/bin/dotfiles-install
+curl -sL https://raw.githubusercontent.com/Luka626/dotfiles/refs/heads/main/local/.local/bin/dotfiles-setup.sh | bash
 ```
 
 After installation, the scripts will be available system-wide:
 ```bash
-dotfiles-setup      # Install system dependencies
-dotfiles-install    # Install dotfiles (all or specific packages)
-dotfiles-uninstall  # Remove dotfiles (all or specific packages)
+dotfiles-setup.sh      # Install system dependencies
+dotfiles-install.sh    # Install dotfiles (all or specific packages)
+dotfiles-uninstall.sh  # Remove dotfiles (all or specific packages)
 ```
 
 ### Manual Installation
 
 Install specific packages:
 ```bash
-stow bash   # Install bash configs
+stow zsh    # Install zsh configs
 stow nvim   # Install nvim configs
 stow tmux   # Install tmux configs
+stow kitty  # Install kitty configs
 stow local  # Install scripts to ~/.local/bin
 ```
 
 Install all packages at once:
 ```bash
-stow bash nvim tmux local
+stow zsh nvim tmux local kitty
 ```
 
 Remove (unstow) a package:
@@ -66,15 +52,15 @@ stow -R nvim
 ## Structure
 
 Each directory represents a package:
-- `bash/` - Bash configuration (.bashrc, .bash_profile)
+- `zsh/` - zsh configuration 
 - `nvim/` - Neovim configuration
 - `tmux/` - Tmux configuration
 - `local/` - Local scripts and utilities in ~/.local/bin
+- `kitty/` - Kitty configuration
 
 ## How It Works
 
 GNU Stow creates symlinks from this directory to your home directory. For example:
-- `bash/.bashrc` → `~/.bashrc`
 - `nvim/.config/nvim/init.lua` → `~/.config/nvim/init.lua`
 - `tmux/.tmux.conf` → `~/.tmux.conf`
 - `local/.local/bin/dotfiles-setup` → `~/.local/bin/dotfiles-setup`
@@ -83,9 +69,9 @@ GNU Stow creates symlinks from this directory to your home directory. For exampl
 
 Once you've stowed the `local` package, these scripts are available:
 
-- `dotfiles-setup` - Install system dependencies (git, stow, tmux, neovim)
-- `dotfiles-install [package...]` - Install all or specific dotfiles packages
-- `dotfiles-uninstall [package...]` - Remove all or specific dotfiles packages
+- `dotfiles-setup` - Install system dependencies (git, stow, kitty, nvim, etc.)
+- `dotfiles-install` - Install all or update all dotfiles packages
+- `dotfiles-uninstall` - Remove all dotfiles packages
 
 Examples:
 ```bash
