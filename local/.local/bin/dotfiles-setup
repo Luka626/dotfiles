@@ -48,11 +48,14 @@ main() {
     echo_info "Starting system setup..."
     echo ""
 
+    sudo apt update -y && sudo apt upgrade -y 
+
     # Install essential debian packages
     check_and_install "curl"
     check_and_install "git"
     check_and_install "stow"
     check_and_install "tmux"
+    check_and_install "zsh"
 
     # clone repo and install
 
@@ -60,8 +63,8 @@ main() {
     curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
 
     # oh-my-zsh
-    git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
     chsh -s $(which zsh)
+    git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
 
     # Rustup
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
