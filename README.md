@@ -18,9 +18,9 @@ curl -sL https://raw.githubusercontent.com/Luka626/dotfiles/refs/heads/main/loca
 
 After installation, the scripts will be available system-wide:
 ```bash
-dotfiles-setup.sh      # Install system dependencies
-dotfiles-install.sh    # Install dotfiles (all or specific packages)
-dotfiles-uninstall.sh  # Remove dotfiles (all or specific packages)
+dotfiles-setup      # Install system dependencies
+dotfiles-install    # Install dotfiles (all or specific packages)
+dotfiles-uninstall  # Remove dotfiles (all or specific packages)
 ```
 
 ### Manual Installation
@@ -73,9 +73,3 @@ Once you've stowed the `local` package, these scripts are available:
 - `dotfiles-install` - Install all or update all dotfiles packages
 - `dotfiles-uninstall` - Remove all dotfiles packages
 
-Examples:
-```bash
-dotfiles-install              # Install all packages
-dotfiles-install bash nvim    # Install only bash and nvim
-dotfiles-uninstall tmux       # Remove tmux configs
-```
