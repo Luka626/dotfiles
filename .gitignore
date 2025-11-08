@@ -1,0 +1,11 @@
+# Editor files
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Neovim temporary files
+nvim/.config/nvim/plugin/
+
+# Any local overrides
+*.local
