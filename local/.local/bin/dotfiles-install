@@ -72,5 +72,5 @@ fi
 
 
 echo ""
-echo_info "Dotfiles installation complete!"
 echo_info "Scripts are now available in ~/.local/bin/"
+echo_info "--- Dotfiles installation complete! ---"

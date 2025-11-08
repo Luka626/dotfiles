@@ -55,26 +55,24 @@ clone_dotfiles() {
 main() {
     OMZ_DIRECTORY="$HOME/.oh-my-zsh"
     PATH_TO_DOTFILES="$HOME/dotfiles"
+    ESSENTIAL_PACKAGES=( "curl" "git" "stow" "tmux" "npm" "zsh" "kitty" )
     
-    echo_info "Starting system setup..."
+    echo_info "--- Starting system setup ---"
     echo ""
 
-    echo_info "Updating system packages..."
+    echo_info "--- Updating system packages ---"
     sudo apt update -y && sudo apt upgrade -y 
 
-    echo_info "Installing essential packages..."
-    check_and_install "curl"
-    check_and_install "git"
-    check_and_install "stow"
-    check_and_install "tmux"
-    check_and_install "npm"
-    check_and_install "zsh"
-    check_and_install "kitty"
+    echo_info "--- Installing essential debian packages ---"
+    for package in "${ESSENTIAL_PACKAGES[@]}"; do
+        echo_info
+        check_and_install $package
+    done
 
     # clone repo and install
 
     # oh-my-zsh
-    echo_info "Installing oh-my-zsh..."
+    echo_info "--- Installing oh-my-zsh ---"
     sudo usermod -s $(which zsh) $USER
 
     if [ -d "$OMZ_DIRECTORY" ]; then
@@ -83,10 +81,13 @@ main() {
         git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
     fi
 
-    echo_info "Installing rustup, bob-nvim, nvim latest..."
+    echo_info "--- Installing nvim ---"
+    echo_info "Installing rustup..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source "$HOME/.cargo/env"
+    echo_info "Installing bob-nvim..."
     cargo install --git https://github.com/MordechaiHadad/bob.git
+    echo_info "Installing latest nvim..."
     bob use latest
 
 
@@ -94,9 +95,9 @@ main() {
     clone_dotfiles
 
     echo ""
-    echo_info "System setup complete!"
+    echo_info "--- System setup complete! ---"
 
-    echo_info "Installing dotfiles..."
+    echo_info "--- Installing dotfiles ---"
     bash $PATH_TO_DOTFILES/local/.local/bin/dotfiles-install
     
     sudo apt autoremove -y && sudo apt autoclean -y
