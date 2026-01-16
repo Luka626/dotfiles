@@ -47,7 +47,7 @@ clone_dotfiles() {
         cd $PATH_TO_DOTFILES
         git fetch && git pull
     else
-        git clone https://github.com/Luka626/dotfiles.git $PATH_TO_DOTFILES
+        git clone git@github.com:Luka626/dotfiles.git $PATH_TO_DOTFILES
     fi
 }
 
