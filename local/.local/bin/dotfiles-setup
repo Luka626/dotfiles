@@ -54,10 +54,19 @@ clone_dotfiles() {
 main() {
     OMZ_DIRECTORY="$HOME/.oh-my-zsh"
     PATH_TO_DOTFILES="$HOME/dotfiles"
-    ESSENTIAL_PACKAGES=( "curl" "git" "stow" "tmux" "npm" "zsh" "kitty" "build-essential" "ripgrep" "fd-find" "unzip" "wget" )
-    
+    ESSENTIAL_PACKAGES=( "curl" "git" "stow" "tmux" "npm" "zsh" "build-essential" "ripgrep" "fd-find" "unzip" "wget" "fzf")
+    if [ "$(systemctl get-default)" = "graphical.target" ]; then
+        echo_info "Graphical system detected. Adding desktop packages..."
+        ESSENTIAL_PACKAGES+=( "kitty" )
+    else
+        echo_info "Headless system detected. Skipping GUI packages."
+    fi
+ 
     echo_info "--- Starting system setup ---"
     echo ""
+
+
+    echo_info "--- Updating system packages ---"
 
     echo_info "--- Updating system packages ---"
     sudo apt update -y && sudo apt upgrade -y 

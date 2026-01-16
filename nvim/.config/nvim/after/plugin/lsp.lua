@@ -15,7 +15,7 @@ lsp_zero.on_attach(function(client, bufnr)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 
     if vim.lsp.inlay_hint then
-        vim.lsp.inlay_hint.enable(0, true)
+        vim.lsp.inlay_hint.enable(true, { bufnr })
     end
 
 end)
@@ -23,7 +23,7 @@ end)
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-    ensure_installed = { 'pyright', 'lua_ls', 'tsserver', 'rust_analyzer', 'matlab_ls' },
+    ensure_installed = { 'pyright', 'lua_ls', 'rust_analyzer', 'matlab_ls' },
     handlers = {
         lsp_zero.default_setup,
         lua_ls = function()

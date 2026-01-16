@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 
 # BEGIN_KITTY_THEME
-# Dracula
+# Kanagawa
 include current-theme.conf
 # END_KITTY_THEME
 
@@ -11,7 +11,7 @@ include current-theme.conf
 #: individual font faces and even specify special fonts for particular
 #: characters.
 
-# font_family      monospace
+# font_family      JetBrains Mono
 # bold_font        auto
 # italic_font      auto
 # bold_italic_font auto
@@ -1243,7 +1243,7 @@ include current-theme.conf
 
 #: The foreground and background colors.
 
-background_opacity 0.99
+background_opacity 1
 
 #: The opacity of the background. A number between zero and one, where
 #: one is opaque and zero is fully transparent. This will only work if
