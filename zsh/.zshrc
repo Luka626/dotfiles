@@ -119,7 +119,7 @@ alias view="nvim -R"
 #export PATH="/usr/local/cuda-12.9/bin:$PATH"
 export PATH="$HOME/.local/scripts:$PATH"
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
-export PATH="$PATH:/home/landjelic/.local/bin"
+export PATH="$PATH:/home/$USER/.local/bin"
 
 export ZSH_AUTOSUGGEST_STRATEGY=(
     history
@@ -130,11 +130,6 @@ alias vim=nvim
 alias python=python3
 
 
-. /home/landjelic/git/anybotics/infrastructure/development/anymal_cli/bin/anymal_cli.sh
-
-
-alias config='/usr/bin/git --git-dir=/home/landjelic/.cfg/ --work-tree=/home/landjelic'
-
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -144,27 +139,8 @@ bindkey -s ^f "tmux-sessionizer\n"
 
 export TERM=xterm-256color
 
-
-function anysign () {
-  docker container run --rm --network=host -v ${PWD}/:${PWD}/ docker.anybotics.com/field-team/anysign:release-25.06 -- anysign $1 $(realpath $2)
-}
-
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
 alias anymal_logs='docker container run --rm --network=host -v ${PWD}:/home/user/ docker.anymal.com/anymal/downloads/anymal-logs:release-25.06 -- anymal_logs'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-############## BEGIN LOKI-SHELL #####################
-
-# NOTE when changing the Loki URL, also remember to change the promtail config: ~/.loki-shell/config/promtail-logging-config.yaml
-
-export LOKI_URL="http://localhost:4100"
-
-[ -f ~/.loki-shell/shell/loki-shell.zsh ] && source ~/.loki-shell/shell/loki-shell.zsh
-
-############## END LOKI-SHELL   #####################
-#
-
-export ANYBOTICS_REPO_PATH=~/git/anybotics
-export PERCEPTION_DEV_PATH=~/git/perception_dev
-source ${PERCEPTION_DEV_PATH}/host_cli.bash

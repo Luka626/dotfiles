@@ -89,6 +89,25 @@ main() {
         git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
     fi
 
+echo_info "--- Installing ZSH plugins ---"
+    ZSH_CUSTOM="$HOME/.oh-my-zsh/custom"
+    
+    declare -A plugins=(
+        ["zsh-autosuggestions"]="https://github.com/zsh-users/zsh-autosuggestions"
+        ["zsh-syntax-highlighting"]="https://github.com/zsh-users/zsh-syntax-highlighting.git"
+        ["fast-syntax-highlighting"]="https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
+        ["zsh-autocomplete"]="https://github.com/marlonrichert/zsh-autocomplete.git"
+    )
+
+    for plugin in "${!plugins[@]}"; do
+        if [ -d "$ZSH_CUSTOM/plugins/$plugin" ]; then
+            echo_info "Plugin $plugin already installed ✓"
+        else
+            echo_info "Cloning $plugin..."
+            git clone "${plugins[$plugin]}" "$ZSH_CUSTOM/plugins/$plugin"
+        fi
+    done
+
     echo_info "--- Installing nvim ---"
     echo_info "Installing rustup..."
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
