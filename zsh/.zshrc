@@ -100,10 +100,14 @@ if [[ "${SSH_TTY}" ]]; then
 else
     hostStyle="${steel_blue}"
 fi
-if [[ -z $TMUX ]] && [[ -n $SSH_TTY ]]; then
-    exec tmux new-session -A -s mysession
+if [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
+    echo "Auto-attaching to tmux session in 2 seconds..."
+    echo "Press Ctrl+C to cancel..."
+    
+    if sleep 2; then
+        exec tmux new-session -A -s session
+    fi
 fi
-
 if [[ "${USER}" == "root" ]]; then
     userStyle="${red}"
 else
