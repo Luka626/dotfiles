@@ -4,17 +4,16 @@ Personal dotfiles managed with GNU Stow.
 
 ## Prerequisites
 
-1.  Install git:
-    ```bash
-    sudo apt install git
-    ```
-2.  Setup SSH keys (if not already)
-    
+Install curl:
+```bash
+sudo apt install curl
+```
+
 ## Quick Start
 
-Clone repo and run setup script, installs packages, installs dotfiles.
+Curl and run setup script, installs packages, installs dotfiles.
 ```bash
-git clone git@github.com:Luka626/dotfiles.git ~/dotfiles && ~/dotfiles/local/.local/bin/dotfiles-setup
+curl -sL https://raw.githubusercontent.com/Luka626/dotfiles/refs/heads/main/local/.local/bin/dotfiles-setup | sh
 ```
 
 After installation, the scripts will be available system-wide:
