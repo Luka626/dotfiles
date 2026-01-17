@@ -73,12 +73,14 @@ HISTSIZE=500
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+zstyle ':omz:plugins:nvm' lazy yes
 plugins=(
     git
     zsh-autosuggestions
     zsh-syntax-highlighting
     fast-syntax-highlighting
     zsh-autocomplete
+    nvm
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -114,6 +116,10 @@ alias l='ls -CF'
 alias vim='nvim'
 alias vi="nvim"
 alias view="nvim -R"
+alias vim=nvim
+alias python=python3
+alias anymal_logs='docker container run --rm --network=host -v ${PWD}:/home/user/ docker.anymal.com/anymal/downloads/anymal-logs:release-25.06 -- anymal_logs'
+
 
 #export PATH="/usr/lib/ccache:$PATH"
 #export PATH="/usr/local/cuda-12.9/bin:$PATH"
@@ -126,13 +132,12 @@ export ZSH_AUTOSUGGEST_STRATEGY=(
     completion
 )
 
-alias vim=nvim
-alias python=python3
-
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+. /home/landjelic/git/anybotics/infrastructure/development/anymal_cli/bin/anymal_cli.sh
 
 
 bindkey -s ^f "tmux-sessionizer\n"
@@ -140,7 +145,6 @@ bindkey -s ^f "tmux-sessionizer\n"
 export TERM=xterm-256color
 
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
-alias anymal_logs='docker container run --rm --network=host -v ${PWD}:/home/user/ docker.anymal.com/anymal/downloads/anymal-logs:release-25.06 -- anymal_logs'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

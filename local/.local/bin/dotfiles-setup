@@ -54,7 +54,7 @@ clone_dotfiles() {
 main() {
     OMZ_DIRECTORY="$HOME/.oh-my-zsh"
     PATH_TO_DOTFILES="$HOME/dotfiles"
-    ESSENTIAL_PACKAGES=( "curl" "git" "stow" "tmux" "npm" "zsh" "build-essential" "ripgrep" "fd-find" "unzip" "wget" "fzf")
+    ESSENTIAL_PACKAGES=( "curl" "git" "stow" "tmux" "npm" "zsh" "build-essential" "ripgrep" "fd-find" "unzip" "wget" )
     if [ "$(systemctl get-default)" = "graphical.target" ]; then
         echo_info "Graphical system detected. Adding desktop packages..."
         ESSENTIAL_PACKAGES+=( "kitty" )
@@ -107,6 +107,17 @@ echo_info "--- Installing ZSH plugins ---"
             git clone "${plugins[$plugin]}" "$ZSH_CUSTOM/plugins/$plugin"
         fi
     done
+
+    echo_info "--- Installing FZF (The Right Way) ---"
+    if [ -d "$HOME/.fzf" ]; then
+        echo_info "FZF already cloned ✓"
+    else
+        echo_info "Cloning FZF..."
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        echo_info "Running FZF install script..."
+        # This generates the ~/.fzf.zsh file your config needs
+        ~/.fzf/install --all
+    fi
 
     echo_info "--- Installing nvim ---"
     echo_info "Installing rustup..."
