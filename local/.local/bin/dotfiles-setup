@@ -64,7 +64,7 @@ clone_dotfiles() {
     if [  -d "$PATH_TO_DOTFILES" ]; then
         echo_info "dotfiles already cloned ✓"
         cd "$PATH_TO_DOTFILES"
-        execute git fetch 
+        execute git fetch
         execute git pull
     else
         echo_info "Cloning dotfiles..."
@@ -79,31 +79,31 @@ clone_dotfiles() {
 main() {
     OMZ_DIRECTORY="$HOME/.oh-my-zsh"
     PATH_TO_DOTFILES="$HOME/dotfiles"
-    
+
     echo_info "--- Starting system setup ---"
 
     echo_info "--- Updating system packages ---"
-    execute sudo apt update -y 
-    execute sudo apt upgrade -y 
+    execute sudo apt update -y
+    execute sudo apt upgrade -y
 
     if dpkg -l | grep -q "fzf"; then
-        echo_info "Removing system fzf to prefer the git version..."
+        echo_info "Removing system fzf..."
         execute sudo apt remove -y fzf
     fi
 
     echo_info "--- Installing essential debian packages ---"
-    PACKAGES=( 
-        "curl:curl" 
-        "git:git" 
-        "stow:stow" 
-        "tmux:tmux" 
-        "npm:npm" 
-        "zsh:zsh" 
-        "make:build-essential" 
-        "rg:ripgrep" 
-        "fdfind:fd-find" 
-        "unzip:unzip" 
-        "wget:wget" 
+    PACKAGES=(
+        "curl:curl"
+        "git:git"
+        "stow:stow"
+        "tmux:tmux"
+        "npm:npm"
+        "zsh:zsh"
+        "make:build-essential"
+        "rg:ripgrep"
+        "fdfind:fd-find"
+        "unzip:unzip"
+        "wget:wget"
     )
 
     if [ "$(systemctl get-default)" = "graphical.target" ]; then
@@ -116,12 +116,6 @@ main() {
         pkg="${entry##*:}"
         check_and_install "$cmd" "$pkg"
     done
-
-    if command -v fdfind &> /dev/null && ! command -v fd &> /dev/null; then
-        echo_info "Symlinking fdfind to fd..."
-        mkdir -p ~/.local/bin
-        ln -s $(which fdfind) ~/.local/bin/fd
-    fi
 
     echo_info "--- Installing oh-my-zsh ---"
     if [ "$SHELL" != "$(which zsh)" ]; then
@@ -137,7 +131,15 @@ main() {
 
     echo_info "--- Installing ZSH plugins ---"
     ZSH_CUSTOM="$OMZ_DIRECTORY/custom"
-    
+
+    if [ -L "$ZSH_CUSTOM" ]; then
+        echo_warn "Found symlink at $ZSH_CUSTOM. Removing it to allow clean plugin installation..."
+        rm "$ZSH_CUSTOM"
+    fi
+
+    mkdir -p "$ZSH_CUSTOM/plugins"
+    mkdir -p "$ZSH_CUSTOM/themes"
+
     declare -A plugins=(
         ["zsh-autosuggestions"]="https://github.com/zsh-users/zsh-autosuggestions"
         ["zsh-syntax-highlighting"]="https://github.com/zsh-users/zsh-syntax-highlighting.git"
@@ -172,16 +174,16 @@ main() {
         echo_info "Installing rustup..."
         execute bash -c "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
     fi
-    
+
     source "$HOME/.cargo/env"
-    
+
     if command -v bob &> /dev/null; then
         echo_info "Bob already installed ✓"
     else
         echo_info "Installing bob-nvim..."
         execute cargo install --git https://github.com/MordechaiHadad/bob.git
     fi
-    
+
     echo_info "Installing latest nvim..."
     execute bob use latest
 
@@ -191,15 +193,21 @@ main() {
     echo_info "--- System setup complete! ---"
 
     echo_info "--- Installing dotfiles ---"
-    INSTALL_SCRIPT="$PATH_TO_DOTFILES/local/.local/bin/dotfiles-install"
     
+    if [ -f "$HOME/.local/bin/fd" ] || [ -L "$HOME/.local/bin/fd" ]; then
+        echo_warn "Removing existing 'fd' binary to ensure 'stow' can link it..."
+        rm -f "$HOME/.local/bin/fd"
+    fi
+
+    INSTALL_SCRIPT="$PATH_TO_DOTFILES/local/.local/bin/dotfiles-install"
+
     if [ -f "$INSTALL_SCRIPT" ]; then
         execute bash "$INSTALL_SCRIPT"
     else
         echo_warn "Dotfiles install script not found at $INSTALL_SCRIPT"
     fi
-    
-    execute sudo apt autoremove -y 
+
+    execute sudo apt autoremove -y
     execute sudo apt autoclean -y
 }
 
