@@ -118,7 +118,6 @@ alias vi="nvim"
 alias view="nvim -R"
 alias vim=nvim
 alias python=python3
-alias anymal_logs='docker container run --rm --network=host -v ${PWD}:/home/user/ docker.anymal.com/anymal/downloads/anymal-logs:release-25.06 -- anymal_logs'
 
 
 #export PATH="/usr/lib/ccache:$PATH"
@@ -136,9 +135,6 @@ export ZSH_AUTOSUGGEST_STRATEGY=(
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-. /home/landjelic/git/anybotics/infrastructure/development/anymal_cli/bin/anymal_cli.sh
-
 
 bindkey -s ^f "tmux-sessionizer\n"
 
