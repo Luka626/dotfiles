@@ -13,7 +13,7 @@ sudo apt install curl
 
 Curl and run setup script, installs packages, installs dotfiles.
 ```bash
-curl -sL https://raw.githubusercontent.com/Luka626/dotfiles/refs/heads/main/local/.local/bin/dotfiles-setup | sh
+curl -sL https://raw.githubusercontent.com/Luka626/dotfiles/refs/heads/main/local/.local/bin/dotfiles-setup | bash
 ```
 
 After installation, the scripts will be available system-wide:
