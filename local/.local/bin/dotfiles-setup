@@ -79,35 +79,22 @@ clone_dotfiles() {
 main() {
     OMZ_DIRECTORY="$HOME/.oh-my-zsh"
     PATH_TO_DOTFILES="$HOME/dotfiles"
+    ZSH_CUSTOM="$OMZ_DIRECTORY/custom"
 
-    echo_info "--- Starting system setup ---"
-
-    echo_info "--- Updating system packages ---"
     execute sudo apt update -y
     execute sudo apt upgrade -y
 
     if dpkg -l | grep -q "fzf"; then
-        echo_info "Removing system fzf..."
         execute sudo apt remove -y fzf
     fi
 
-    echo_info "--- Installing essential debian packages ---"
     PACKAGES=(
-        "curl:curl"
-        "git:git"
-        "stow:stow"
-        "tmux:tmux"
-        "npm:npm"
-        "zsh:zsh"
-        "make:build-essential"
-        "rg:ripgrep"
-        "fdfind:fd-find"
-        "unzip:unzip"
-        "wget:wget"
+        "curl:curl" "git:git" "stow:stow" "tmux:tmux"
+        "npm:npm" "zsh:zsh" "make:build-essential"
+        "rg:ripgrep" "fdfind:fd-find" "unzip:unzip" "wget:wget"
     )
 
     if [ "$(systemctl get-default)" = "graphical.target" ]; then
-        echo_info "Graphical system detected. Adding desktop packages..."
         PACKAGES+=( "kitty:kitty" )
     fi
 
@@ -117,94 +104,62 @@ main() {
         check_and_install "$cmd" "$pkg"
     done
 
-    echo_info "--- Installing oh-my-zsh ---"
+    mkdir -p "$HOME/.local/bin"
+    if command -v fdfind &> /dev/null; then
+        ln -sf "$(which fdfind)" "$HOME/.local/bin/fd"
+    fi
+
     if [ "$SHELL" != "$(which zsh)" ]; then
-        echo_info "Changing default shell to zsh..."
         execute sudo usermod -s $(which zsh) $USER
     fi
 
-    if [ -d "$OMZ_DIRECTORY" ]; then
-        echo_info "oh-my-zsh already cloned ✓"
-    else
+    if [ ! -d "$OMZ_DIRECTORY" ]; then
         execute git clone https://github.com/ohmyzsh/ohmyzsh.git "$OMZ_DIRECTORY"
     fi
 
-    echo_info "--- Installing ZSH plugins ---"
-    ZSH_CUSTOM="$OMZ_DIRECTORY/custom"
-
-    if [ -L "$ZSH_CUSTOM" ]; then
-        echo_warn "Found symlink at $ZSH_CUSTOM. Removing it to allow clean plugin installation..."
-        rm "$ZSH_CUSTOM"
-    fi
-
+    if [ -L "$ZSH_CUSTOM" ]; then rm "$ZSH_CUSTOM"; fi
     mkdir -p "$ZSH_CUSTOM/plugins"
     mkdir -p "$ZSH_CUSTOM/themes"
 
     declare -A plugins=(
         ["zsh-autosuggestions"]="https://github.com/zsh-users/zsh-autosuggestions"
-        ["zsh-syntax-highlighting"]="https://github.com/zsh-users/zsh-syntax-highlighting.git"
         ["fast-syntax-highlighting"]="https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
-        ["zsh-autocomplete"]="https://github.com/marlonrichert/zsh-autocomplete.git"
     )
 
     for plugin in "${!plugins[@]}"; do
-        if [ -d "$ZSH_CUSTOM/plugins/$plugin" ]; then
-            echo_info "Plugin $plugin already installed ✓"
-        else
-            echo_info "Cloning $plugin..."
-            rm -rf "$ZSH_CUSTOM/plugins/$plugin"
+        if [ ! -d "$ZSH_CUSTOM/plugins/$plugin" ]; then
             execute git clone "${plugins[$plugin]}" "$ZSH_CUSTOM/plugins/$plugin"
         fi
     done
 
-    echo_info "--- Installing fzf ---"
-    if [ -d "$HOME/.fzf" ]; then
-        echo_info "FZF already cloned ✓"
-    else
-        echo_info "Cloning FZF..."
+    if [ ! -d "$HOME/.fzf" ]; then
         execute git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-        echo_info "Running FZF install script..."
         execute ~/.fzf/install --all
     fi
 
-    echo_info "--- Installing nvim ---"
-    if command -v rustup &> /dev/null; then
-        echo_info "Rustup already installed ✓"
-    else
-        echo_info "Installing rustup..."
+    if ! command -v rustup &> /dev/null; then
         execute bash -c "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
     fi
 
     source "$HOME/.cargo/env"
 
-    if command -v bob &> /dev/null; then
-        echo_info "Bob already installed ✓"
-    else
-        echo_info "Installing bob-nvim..."
+    if ! command -v bob &> /dev/null; then
         execute cargo install --git https://github.com/MordechaiHadad/bob.git
     fi
 
-    echo_info "Installing latest nvim..."
+    export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
     execute bob use latest
 
-    echo_info "Cloning dotfiles repo..."
     clone_dotfiles
 
-    echo_info "--- System setup complete! ---"
-
-    echo_info "--- Installing dotfiles ---"
-    
-    if [ -f "$HOME/.local/bin/fd" ] || [ -L "$HOME/.local/bin/fd" ]; then
-        echo_warn "Removing existing 'fd' binary to ensure 'stow' can link it..."
+    if [ -f "$HOME/.local/bin/fd" ] && [ ! -L "$HOME/.local/bin/fd" ]; then
         rm -f "$HOME/.local/bin/fd"
+        ln -sf "$(which fdfind)" "$HOME/.local/bin/fd"
     fi
 
     INSTALL_SCRIPT="$PATH_TO_DOTFILES/local/.local/bin/dotfiles-install"
-
     if [ -f "$INSTALL_SCRIPT" ]; then
         execute bash "$INSTALL_SCRIPT"
-    else
-        echo_warn "Dotfiles install script not found at $INSTALL_SCRIPT"
     fi
 
     execute sudo apt autoremove -y
