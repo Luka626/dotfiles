@@ -93,26 +93,22 @@ source $ZSH/oh-my-zsh.sh
 # Preferred editor for local and remote sessions
 export EDITOR='nvim'
 
-if [[ "${SSH_TTY}" ]]; then
-    hostStyle="${bold}${orange}"
-else
-    hostStyle="${steel_blue}"
-fi
 if [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
     echo "Auto-attaching to tmux session in 2 seconds..."
     echo "Press Ctrl+C to cancel..."
-    
+
     if sleep 2; then
+        export IS_SSH=1
         exec tmux new-session -A -s session
     fi
 fi
-if [[ "${USER}" == "root" ]]; then
-    userStyle="${red}"
-else
-    userStyle="${purple}"
-fi
-if [[ -n "$SSH_TTY" ]]; then
-  PROMPT="${hostStyle}[ssh]%f ${userStyle}%n%f $PROMPT"
+
+if [[ -n "$SSH_TTY" ]] || [[ -n "$IS_SSH" ]]; then
+    if [[ "${USER}" == "root" ]]; then
+        PROMPT="%F{yellow}[ssh]%f %F{red}%n%f $PROMPT"
+    else
+        PROMPT="%F{yellow}[ssh]%f %F{magenta}%n%f $PROMPT"
+    fi
 fi
 
 alias ll='ls -alF'
