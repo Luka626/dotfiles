@@ -93,15 +93,6 @@ source $ZSH/oh-my-zsh.sh
 # Preferred editor for local and remote sessions
 export EDITOR='nvim'
 
-if [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
-    echo "Auto-attaching to tmux session in 2 seconds..."
-    echo "Press Ctrl+C to cancel..."
-
-    if sleep 2; then
-        export IS_SSH=1
-        exec tmux new-session -A -s session
-    fi
-fi
 
 if [[ -n "$SSH_TTY" ]] || [[ -n "$IS_SSH" ]]; then
     if [[ "${USER}" == "root" ]]; then
@@ -148,4 +139,15 @@ fpath+=~/.zfunc; autoload -Uz compinit; compinit
 
 # Source ANYmal-cli
 source /usr/share/anymal_cli/anymal_cli.sh
+
 alias anymal_logs='docker container run --rm --network=host -v ${PWD}:/home/user/ docker.anymal.com/anymal/downloads/anymal-logs:release-25.06 -- anymal_logs'
+
+if [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
+    echo "Auto-attaching to tmux session in 2 seconds..."
+    echo "Press Ctrl+C to cancel..."
+
+    if sleep 2; then
+        export IS_SSH=1
+        exec tmux new-session -A -s session
+    fi
+fi
