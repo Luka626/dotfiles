@@ -95,12 +95,9 @@ export EDITOR='nvim'
 
 
 if [[ -n "$SSH_TTY" ]] || [[ -n "$IS_SSH" ]]; then
-    if [[ "${USER}" == "root" ]]; then
-        PROMPT="%F{yellow}[ssh]%f %F{red}%n%f $PROMPT"
-    else
-        PROMPT="%F{yellow}[ssh]%f %F{magenta}%n%f $PROMPT"
-    fi
+    PROMPT="%F{yellow}[ssh]%f %F{magenta}%n%f$PROMPT"
 fi
+
 
 alias ll='ls -alF'
 alias la='ls -A'
