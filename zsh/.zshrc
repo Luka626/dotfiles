@@ -77,9 +77,7 @@ zstyle ':omz:plugins:nvm' lazy yes
 plugins=(
     git
     zsh-autosuggestions
-    zsh-syntax-highlighting
     fast-syntax-highlighting
-    zsh-autocomplete
     nvm
 )
 
@@ -112,6 +110,9 @@ if [[ "${USER}" == "root" ]]; then
     userStyle="${red}"
 else
     userStyle="${purple}"
+fi
+if [[ -n "$SSH_TTY" ]]; then
+  PROMPT="${hostStyle}[ssh]%f ${userStyle}%n%f $PROMPT"
 fi
 
 alias ll='ls -alF'
@@ -148,3 +149,7 @@ fpath+=~/.zfunc; autoload -Uz compinit; compinit
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+
+# Source ANYmal-cli
+source /usr/share/anymal_cli/anymal_cli.sh
+alias anymal_logs='docker container run --rm --network=host -v ${PWD}:/home/user/ docker.anymal.com/anymal/downloads/anymal-logs:release-25.06 -- anymal_logs'
