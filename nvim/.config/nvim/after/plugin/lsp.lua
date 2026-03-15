@@ -37,7 +37,9 @@ require('mason-lspconfig').setup({
                     matlab = {
                         capabilities = require("cmp_nvim_lsp").default_capabilities(),
                         IndexWorkspace = true,
-                        installPath = '/usr/local/MATLAB/R2023b',
+                        installPath = vim.fn.has('mac') == 1
+                            and '/Applications/MATLAB_R2023b.app'
+                            or '/usr/local/MATLAB/R2023b',
                         Telemetry = false,
                     },
                 },

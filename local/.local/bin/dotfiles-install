@@ -66,7 +66,7 @@ else
     done
 fi
 
-if [ -z "$SSH_CLIENT" ] && [ -n "$DISPLAY" ]; then
+if [ -z "$SSH_CLIENT" ] && [ -n "$DISPLAY" ] && command -v update-alternatives &> /dev/null; then
     sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator ~/.local/bin/kitty 50
 fi
 

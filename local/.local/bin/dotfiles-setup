@@ -95,7 +95,15 @@ main() {
     )
 
     if [ "$(systemctl get-default)" = "graphical.target" ]; then
-        PACKAGES+=( "kitty:kitty" )
+        PACKAGES+=(
+            "kitty:kitty"
+            "i3:i3" "i3blocks:i3blocks" "dmenu:dmenu"
+            "dex:dex" "xss-lock:xss-lock" "i3lock:i3lock"
+            "nm-applet:network-manager-gnome" "blueman-applet:blueman"
+            "copyq:copyq" "brightnessctl:brightnessctl"
+            "alacritty:alacritty" "pactl:pulseaudio-utils"
+            "setxkbmap:x11-xkb-utils" "xfce4-power-manager:xfce4-power-manager"
+        )
     fi
 
     for entry in "${PACKAGES[@]}"; do

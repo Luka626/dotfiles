@@ -1,3 +1,6 @@
+# Documents
+*.pdf
+
 # Editor files
 .DS_Store
 *.swp

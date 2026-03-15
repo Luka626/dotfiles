@@ -31,13 +31,14 @@ stow zsh    # Install zsh configs
 stow nvim   # Install nvim configs
 stow tmux   # Install tmux configs
 stow kitty  # Install kitty configs
+stow i3     # Install i3 configs
 stow local  # Install scripts to ~/.local/bin
 stow oh-my-zsh-custom  # Install oh-my-zsh plugins
 ```
 
 Install all packages at once:
 ```bash
-stow zsh nvim tmux local kitty oh-my-zsh-custom
+stow zsh nvim tmux local kitty i3 oh-my-zsh-custom
 ```
 
 Remove (unstow) a package:
@@ -53,11 +54,12 @@ stow -R nvim
 ## Structure
 
 Each directory represents a package:
-- `zsh/` - zsh configuration 
+- `zsh/` - zsh configuration
 - `nvim/` - Neovim configuration
 - `tmux/` - Tmux configuration
 - `local/` - Local scripts and utilities in ~/.local/bin
 - `kitty/` - Kitty configuration
+- `i3/` - i3 window manager configuration
 - `oh-my-zsh-custom/` - oh-my-zsh configuration
 
 ## How It Works

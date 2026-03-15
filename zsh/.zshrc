@@ -113,7 +113,11 @@ alias python=python3
 #export PATH="/usr/local/cuda-12.9/bin:$PATH"
 export PATH="$HOME/.local/scripts:$PATH"
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
-export PATH="$PATH:/home/$USER/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export PATH="/opt/homebrew/bin:$PATH"
+fi
 
 export ZSH_AUTOSUGGEST_STRATEGY=(
     history
@@ -134,8 +138,8 @@ fpath+=~/.zfunc; autoload -Uz compinit; compinit
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 
-# Source ANYmal-cli
-source /usr/share/anymal_cli/anymal_cli.sh
+# Source ANYmal-cli (Linux only, optional)
+[[ -f /usr/share/anymal_cli/anymal_cli.sh ]] && source /usr/share/anymal_cli/anymal_cli.sh
 
 alias anymal_logs='docker container run --rm --network=host -v ${PWD}:/home/user/ docker.anymal.com/anymal/downloads/anymal-logs:release-25.06 -- anymal_logs'
 
